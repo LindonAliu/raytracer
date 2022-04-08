@@ -1,0 +1,7 @@
+*.a
+*.o
+*.gcda
+*.gcno
+vgcore.*
+/unit_tests
+/raytracer
