@@ -28,7 +28,14 @@ struct ray {
     struct vector direction;
 };
 
-typedef double intersection_t(void *obj, struct ray *r);
+struct intersection {
+    struct vector intersection;
+    struct vector normal;
+    double distance;
+};
+
+typedef bool intersection_t(void *obj, struct ray *r,
+    struct intersection *out);
 
 struct object {
     intersection_t *intersection;
@@ -47,6 +54,10 @@ struct plane {
     struct vector normal;
 };
 
+struct light {
+    struct vector pos;
+};
+
 typedef struct {
     sfUint8 *pixels;
     unsigned int width;
@@ -58,6 +69,9 @@ sfRenderWindow *create_render_window(char *title);
 void free_framebuffer(framebuffer_t *buf);
 void reset_framebuffer(framebuffer_t *buffer, sfColor *col);
 void set_pixel(framebuffer_t *buf, int x, int y, sfColor *color);
+
+double vector_norm(struct vector *vector);
+double vector_product(struct vector *lhs, struct vector *rhs);
 
 intersection_t intersection_sphere;
 intersection_t intersection_plane;
