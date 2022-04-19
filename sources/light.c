@@ -15,9 +15,9 @@ sfColor light(struct light *light, struct intersection *intersection,
         light->pos.y - intersection->intersection.y,
         light->pos.z - intersection->intersection.z
     };
-    double cosA = vector_product(&intersection->normal, &l) /
+    double cos_a = vector_product(&intersection->normal, &l) /
         (vector_norm(&intersection->normal) * vector_norm(&l));
-    double multiplier = cosA > 0 ? cosA : 0;
+    double multiplier = cos_a > 0 ? cos_a : 0;
 
     return ((sfColor) { multiplier * color.r, multiplier * color.g,
         multiplier * color.b, color.a });

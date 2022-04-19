@@ -16,44 +16,44 @@ double discriminant(double a, double b, double c)
     return delta;
 }
 
-double vector_distance(struct vector *a, struct vector *b)
-{
-    return vector_norm(&(struct vector)
-    {a->x - b->x, a->y - b->y, a->z - b->z});
-}
-
 static double calcul(struct sphere *s, struct ray *r,
 struct intersection *out, double res)
 {
-    out->intersection = (struct vector) {r->origin.x + res * r->direction.x,
-    r->origin.y + res * r->direction.y, r->origin.z + res * r->direction.z};
+    out->intersection = (struct vector) {r->origin.x + res *
+        r->direction.x, r->origin.y + res * r->direction.y,
+        r->origin.z + res * r->direction.z};
     out->distance = vector_distance(&r->origin, &out->intersection);
     out->normal = (struct vector) {out->intersection.x - s->center.x,
-    out->intersection.y - s->center.y, out->intersection.z - s->center.z};
+        out->intersection.y - s->center.y, out->intersection.z - s->center.z};
     return out->distance;
+}
+
+void pt_init(struct vector *pt_sphere, struct ray *r, struct vector *pt, struct sphere *s)
+{
+    pt_sphere->x = SQ(r->direction.x) + SQ(r->direction.y) + SQ(r->direction.z);
+    pt_sphere->y = (2 * pt->x * r->direction.x) + (2 * pt->y * r->direction.y) + (2 * pt->z * r->direction.z);
+    pt_sphere->z = SQ(pt->x) + SQ(pt->y) + SQ(pt->z) - SQ(s->radius);
 }
 
 bool intersection_sphere(void *obj, struct ray *r, struct intersection *out)
 {
     struct sphere *s = obj;
     struct vector pt = {.x = r->origin.x - s->center.x,
-    .y = r->origin.y - s->center.y, .z = r->origin.z - s->center.z,};
-    double a = SQ(r->direction.x) + SQ(r->direction.y) + SQ(r->direction.z);
-    double b = (2 * pt.x * r->direction.x) + (2 * pt.y * r->direction.y) + (2 * pt.z * r->direction.z);
-    double c = SQ(pt.x) + SQ(pt.y) + SQ(pt.z) - SQ(s->radius);
-    double delta = discriminant(a, b, c);
+        .y = r->origin.y - s->center.y, .z = r->origin.z - s->center.z,};
+    struct vector pt_sphere;
+    double delta;
     double distance1;
     double distance2;
 
-    if (a == 0)
-        return false;
+    pt_init(&pt_sphere, r, &pt, s);
+    delta = discriminant(pt_sphere.x, pt_sphere.y, pt_sphere.z);
     if (delta == 0) {
-        calcul(s, r, out, (-b) / (2 * a));
+        calcul(s, r, out, (-pt_sphere.y) / (2 *pt_sphere.x));
     } else if (delta > 0) {
-        distance1 = calcul(s, r, out, (-b + sqrt(delta)) / (2 * a));
-        distance2 = calcul(s, r, out, (-b - sqrt(delta)) / (2 * a));
+        distance1 = calcul(s, r, out, (-pt_sphere.y + sqrt(delta)) / (2 *pt_sphere.x));
+        distance2 = calcul(s, r, out, (-pt_sphere.y - sqrt(delta)) / (2 *pt_sphere.x));
         if (distance1 < distance2)
-            calcul(s, r, out, (-b + sqrt(delta)) / (2 * a));
+            calcul(s, r, out, (-pt_sphere.y + sqrt(delta)) / (2 *pt_sphere.x));
     } else
         return false;
     return true;
