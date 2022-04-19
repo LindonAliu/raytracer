@@ -6,7 +6,7 @@
 ##
 
 SRC_ALL		=	framebuffer.c			\
-				intersection_sphere.c	\
+				intersection/sphere.c	\
 				intersection_plane.c	\
 				trace_rays.c			\
 				light.c					\
