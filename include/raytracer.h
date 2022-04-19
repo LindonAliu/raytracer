@@ -79,5 +79,8 @@ sfColor light(struct light *light, struct intersection *intersection,
 double vector_norm(struct vector *vector);
 double vector_product(struct vector *lhs, struct vector *rhs);
 
+double discriminant(double a, double b, double c);
+
+
 intersection_t intersection_sphere;
 intersection_t intersection_plane;
