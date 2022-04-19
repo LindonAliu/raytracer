@@ -9,6 +9,8 @@ SRC_ALL		=	framebuffer.c			\
 				intersection_sphere.c	\
 				intersection_plane.c	\
 				trace_rays.c			\
+				light.c					\
+				vector.c				\
 
 SRC_NT		=	main.c
 
@@ -28,7 +30,7 @@ TEST		=	unit_tests
 CPPFLAGS	=	-Wall -Wextra -iquote "include"
 CFLAGS		=
 LDFLAGS		=	-Llib
-LDLIBS		=	-lmy -lcsfml-graphics -lcsfml-system -lcsfml-window
+LDLIBS		=	-lm -lmy -lcsfml-graphics -lcsfml-system -lcsfml-window
 
 all:	$(EXEC)
 

@@ -12,6 +12,7 @@
 #include <SFML/Window/Event.h>
 #include <stdbool.h>
 
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define SQ(v) ((v) * (v))
 
 #define WIDTH 800
@@ -71,6 +72,9 @@ void reset_framebuffer(framebuffer_t *buffer, sfColor *col);
 void set_pixel(framebuffer_t *buf, int x, int y, sfColor color);
 
 void trace_rays(framebuffer_t *buf);
+
+sfColor light(struct light *light, struct intersection *intersection,
+    sfColor color);
 
 double vector_norm(struct vector *vector);
 double vector_product(struct vector *lhs, struct vector *rhs);
