@@ -20,7 +20,7 @@ bool quadratic_intersects(double a, double b, double c)
     return true;
 }
 
-double intersection_sphere(void *obj, struct ray *r)
+bool intersection_sphere(void *obj, struct ray *r, struct intersection *out)
 {
     struct sphere *s = obj;
     struct vector pt = {

@@ -68,7 +68,9 @@ framebuffer_t *alloc_framebuffer(int width, int height);
 sfRenderWindow *create_render_window(char *title);
 void free_framebuffer(framebuffer_t *buf);
 void reset_framebuffer(framebuffer_t *buffer, sfColor *col);
-void set_pixel(framebuffer_t *buf, int x, int y, sfColor *color);
+void set_pixel(framebuffer_t *buf, int x, int y, sfColor color);
+
+void trace_rays(framebuffer_t *buf);
 
 double vector_norm(struct vector *vector);
 double vector_product(struct vector *lhs, struct vector *rhs);

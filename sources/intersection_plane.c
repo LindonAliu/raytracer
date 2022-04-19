@@ -9,7 +9,7 @@
 
 #include <stdbool.h>
 
-double intersection_plane(void *obj, struct ray *r)
+bool intersection_plane(void *obj, struct ray *r, struct intersection *out)
 {
     struct plane *p = obj;
     double div = p->normal.x * r->direction.x + p->normal.y * r->direction.y
