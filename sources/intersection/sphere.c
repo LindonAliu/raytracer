@@ -23,13 +23,7 @@ double vector_distance(struct vector *a, struct vector *b)
 
 static double calcul(struct sphere *s, struct ray *r, struct intersection *out, double res)
 {
-    struct vector pt = {
-        .x = r->origin.x - s->center.x,
-        .y = r->origin.y - s->center.y,
-        .z = r->origin.z - s->center.z,
-    };
-
-    out->intersection = (struct vector) {pt.x + res * r->direction.x, pt.y + res * r->direction.y, pt.z + res * r->direction.z};
+    out->intersection = (struct vector) {r->origin.x + res * r->direction.x, r->origin.y + res * r->direction.y, r->origin.z + res * r->direction.z};
     out->distance = vector_distance(&r->origin, &out->intersection);
     out->normal = (struct vector) {out->intersection.x - s->center.x, out->intersection.y - s->center.y, out->intersection.z - s->center.z};
     return out->distance;
