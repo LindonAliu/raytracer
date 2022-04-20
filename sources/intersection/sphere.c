@@ -19,19 +19,20 @@ double discriminant(double a, double b, double c)
 static double calcul(struct sphere *s, struct ray *r,
 struct intersection *out, double res)
 {
-    out->intersection = (struct vector) {r->origin.x + res *
-        r->direction.x, r->origin.y + res * r->direction.y,
-        r->origin.z + res * r->direction.z};
+    out->intersection = (struct vector) {r->origin.x + res * r->direction.x, r->origin.y + res * r->direction.y, r->origin.z + res * r->direction.z};
     out->distance = vector_distance(&r->origin, &out->intersection);
     out->normal = (struct vector) {out->intersection.x - s->center.x,
         out->intersection.y - s->center.y, out->intersection.z - s->center.z};
     return out->distance;
 }
 
-void pt_init(struct vector *pt_sphere, struct ray *r, struct vector *pt, struct sphere *s)
+void pt_init(struct vector *pt_sphere, struct ray *r,
+struct vector *pt, struct sphere *s)
 {
-    pt_sphere->x = SQ(r->direction.x) + SQ(r->direction.y) + SQ(r->direction.z);
-    pt_sphere->y = (2 * pt->x * r->direction.x) + (2 * pt->y * r->direction.y) + (2 * pt->z * r->direction.z);
+    pt_sphere->x = SQ(r->direction.x) +
+        SQ(r->direction.y) + SQ(r->direction.z);
+    pt_sphere->y = (2 * pt->x * r->direction.x) +
+        (2 * pt->y * r->direction.y) + (2 * pt->z * r->direction.z);
     pt_sphere->z = SQ(pt->x) + SQ(pt->y) + SQ(pt->z) - SQ(s->radius);
 }
 

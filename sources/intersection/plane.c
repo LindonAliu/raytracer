@@ -5,15 +5,21 @@
 ** intersection
 */
 
+#include <stdbool.h>
 #include "raytracer.h"
 
-#include <stdbool.h>
 
 bool intersection_plane(void *obj, struct ray *r, struct intersection *out)
 {
     struct plane *p = obj;
-    double div = p->normal.x * r->direction.x + p->normal.y * r->direction.y
-        + p->normal.z * r->direction.z;
+    double d = -vector_product(&p->pos, &p->normal);
+    double divi = vector_product(&r->direction, &p->normal);
+    double t = -(vector_product(&p->normal, &r->origin) + d) / divi;
 
-    return div > 0;
+    if (t > 0 && divi != 0) {
+        out->intersection = (struct vector) {r->origin.x + t * r->direction.x, r->origin.y + t * r->direction.y, r->origin.z + t * r->direction.z};
+        out->distance = vector_distance(&r->origin, &out->intersection);
+        out->normal = (struct vector) {p->normal.x, p->normal.y, p->normal.z};
+        return true;
+    return false;
 }
