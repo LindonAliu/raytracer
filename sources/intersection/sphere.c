@@ -19,7 +19,9 @@ double discriminant(double a, double b, double c)
 static double calcul(struct sphere *s, struct ray *r,
 struct intersection *out, double res)
 {
-    out->intersection = (struct vector) {r->origin.x + res * r->direction.x, r->origin.y + res * r->direction.y, r->origin.z + res * r->direction.z};
+    out->intersection = (struct vector) {r->origin.x + res * 
+        r->direction.x, r->origin.y + res * r->direction.y,
+        r->origin.z + res * r->direction.z};
     out->distance = vector_distance(&r->origin, &out->intersection);
     out->normal = (struct vector) {out->intersection.x - s->center.x,
         out->intersection.y - s->center.y, out->intersection.z - s->center.z};
@@ -43,17 +45,17 @@ bool intersection_sphere(void *obj, struct ray *r, struct intersection *out)
         .y = r->origin.y - s->center.y, .z = r->origin.z - s->center.z,};
     struct vector pt_sphere;
     double delta;
-    double distance1;
-    double distance2;
+    double a;
+    double b;
 
     pt_init(&pt_sphere, r, &pt, s);
     delta = discriminant(pt_sphere.x, pt_sphere.y, pt_sphere.z);
     if (delta == 0) {
         calcul(s, r, out, (-pt_sphere.y) / (2 *pt_sphere.x));
     } else if (delta > 0) {
-        distance1 = calcul(s, r, out, (-pt_sphere.y + sqrt(delta)) / (2 *pt_sphere.x));
-        distance2 = calcul(s, r, out, (-pt_sphere.y - sqrt(delta)) / (2 *pt_sphere.x));
-        if (distance1 < distance2)
+        a = calcul(s, r, out, (-pt_sphere.y + sqrt(delta)) / (2 *pt_sphere.x));
+        b = calcul(s, r, out, (-pt_sphere.y - sqrt(delta)) / (2 *pt_sphere.x));
+        if (a < b)
             calcul(s, r, out, (-pt_sphere.y + sqrt(delta)) / (2 *pt_sphere.x));
     } else
         return false;

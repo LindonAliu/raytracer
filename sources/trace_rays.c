@@ -55,15 +55,20 @@ void trace_rays(framebuffer_t *buf)
 {
     struct sphere s = {
         .obj = { &intersection_sphere, sfRed },
-        .center = {0, 0, 800},
-        .radius = 100
+        .center = {0, 300, 800},
+        .radius = 53
+    };
+    struct sphere s2 = {
+        .obj = { &intersection_sphere, sfBlue },
+        .center = {0, 300, 800},
+        .radius = 200
     };
     struct plane p = {
         .obj = { &intersection_plane, sfGreen },
         .normal = {-1, 10, -1},
         .pos = {0, -1, 0},
     };
-    struct object *objects[] = { &s.obj, &p.obj, NULL };
+    struct object *objects[] = { &s.obj, &p.obj, &s2.obj, NULL };
     struct light l = {
         .pos = {200, 200, 750}
     };
