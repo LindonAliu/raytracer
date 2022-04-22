@@ -41,7 +41,7 @@ sfColor trace_ray(struct ray *ray, struct object **objects,
     struct intersection result;
     sfColor col = find_intersection(ray, objects, &result);
 
-    return modify_lights(col, lights, &result);
+    return modify_lights(col, lights, &result, objects);
 }
 
 void trace_rays(framebuffer_t *buf)

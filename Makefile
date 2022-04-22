@@ -11,6 +11,7 @@ SRC_ALL		=	framebuffer.c			\
 				trace_rays.c			\
 				light.c					\
 				vector.c				\
+				shadow.c				\
 
 SRC_NT		=	main.c
 
