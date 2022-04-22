@@ -17,60 +17,58 @@
 #include <stdlib.h>
 #include <time.h>
 
-sfColor modify_lights(sfColor color, struct light **lights,
-    struct intersection *intersection)
+sfColor find_intersection(struct ray *ray, struct object **objects,
+    struct intersection *final)
 {
-    sfColor modified = sfBlack;
-    sfColor partial;
+    sfColor col = sfBlack;
+    struct intersection result;
 
-    for (int i = 0; lights[i]; i++) {
-        partial = light(lights[i], intersection, color);
-        modified.r = MAX(modified.r, partial.r);
-        modified.g = MAX(modified.g, partial.g);
-        modified.b = MAX(modified.b, partial.b);
-        modified.a = MAX(modified.a, partial.a);
+    final->distance = INFINITY;
+    for (int i = 0; objects[i]; i++) {
+        if (!objects[i]->intersection(objects[i], ray, &result))
+            continue;
+        if (result.distance >= final->distance)
+            continue;
+        col = objects[i]->color;
+        *final = result;
     }
-    return modified;
+    return col;
 }
 
 sfColor trace_ray(struct ray *ray, struct object **objects,
     struct light **lights)
 {
-    sfColor col = sfBlack;
     struct intersection result;
-    struct intersection final = { .distance = INFINITY };
+    sfColor col = find_intersection(ray, objects, &result);
 
-    for (int i = 0; objects[i]; i++) {
-        if (!objects[i]->intersection(objects[i], ray, &result))
-            continue;
-        if (result.distance >= final.distance)
-            continue;
-        col = objects[i]->color;
-        final = result;
-    }
-    return modify_lights(col, lights, &final);
+    return modify_lights(col, lights, &result);
 }
 
 void trace_rays(framebuffer_t *buf)
 {
     struct sphere s = {
         .obj = { &intersection_sphere, sfRed },
-        .center = {0, 300, 800},
+        .center = {0, -100, 700},
         .radius = 53
     };
     struct sphere s2 = {
         .obj = { &intersection_sphere, sfBlue },
-        .center = {0, 300, 800},
+        .center = {0, 200, 800},
         .radius = 200
+    };
+    struct sphere sun = {
+        .obj = { &intersection_sphere, sfYellow },
+        .center = {-200, -200, 1000000},
+        .radius = 500000
     };
     struct plane p = {
         .obj = { &intersection_plane, sfGreen },
-        .normal = {-1, 10, -1},
-        .pos = {0, -1, 0},
+        .normal = {0, -10, 0},
+        .pos = {0, 100, 0},
     };
-    struct object *objects[] = { &s.obj, &p.obj, &s2.obj, NULL };
+    struct object *objects[] = { &s.obj, &p.obj, &s2.obj, &sun.obj, NULL };
     struct light l = {
-        .pos = {200, 200, 750}
+        .pos = {200, -200, 750}
     };
     struct light *lights[] = { &l, NULL };
     struct ray r = {

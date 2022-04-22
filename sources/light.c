@@ -22,3 +22,19 @@ sfColor light(struct light *light, struct intersection *intersection,
     return ((sfColor) { multiplier * color.r, multiplier * color.g,
         multiplier * color.b, color.a });
 }
+
+sfColor modify_lights(sfColor color, struct light **lights,
+    struct intersection *intersection)
+{
+    sfColor modified = sfBlack;
+    sfColor partial;
+
+    for (int i = 0; lights[i]; i++) {
+        partial = light(lights[i], intersection, color);
+        modified.r = MAX(modified.r, partial.r);
+        modified.g = MAX(modified.g, partial.g);
+        modified.b = MAX(modified.b, partial.b);
+        modified.a = MAX(modified.a, partial.a);
+    }
+    return modified;
+}

@@ -75,6 +75,8 @@ void trace_rays(framebuffer_t *buf);
 
 sfColor light(struct light *light, struct intersection *intersection,
     sfColor color);
+sfColor modify_lights(sfColor color, struct light **lights,
+    struct intersection *intersection);
 
 double vector_norm(struct vector *vector);
 double vector_product(struct vector *lhs, struct vector *rhs);
