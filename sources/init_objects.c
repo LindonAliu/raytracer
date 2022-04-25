@@ -23,9 +23,7 @@ int init_sphere(struct object **obj, char *line)
     new->obj.intersection = &intersection_sphere;
     new->radius = (double)my_getnbr(array[5]);
     *obj = &(new->obj);
-    for (int i = 0; array[i] != NULL; i++)
-        free(array[i]);
-    free(array);
+    free_array(array);
     return 0;
 }
 
@@ -45,8 +43,6 @@ int init_plane(struct object **obj, char *line)
     new->normal.y = (double)my_getnbr(array[6]);
     new->normal.z = (double)my_getnbr(array[7]);
     *obj = &(new->obj);
-    for (int i = 0; array[i] != NULL; i++)
-        free(array[i]);
-    free(array);
+    free_array(array);
     return 0;
 }

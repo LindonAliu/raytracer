@@ -28,8 +28,6 @@ int initialize_object(struct object **obj, char *line)
         if (result == -1)
             return -1;
     }
-    for (int i = 0; array[i] != NULL; i++)
-        free(array[i]);
-    free(array);
+    free_array(array);
     return 0;
 }
