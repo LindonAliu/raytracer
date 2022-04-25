@@ -5,3 +5,5 @@
 vgcore.*
 /unit_tests
 /raytracer
+.vscode
+config.txt

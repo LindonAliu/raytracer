@@ -8,6 +8,11 @@
 SRC_ALL		=	framebuffer.c			\
 				intersection_sphere.c	\
 				intersection_plane.c	\
+				realloc_object_tab.c	\
+				init_objects.c			\
+				get_color_from_rgb.c	\
+				initialize_object_tab.c	\
+				get_all_objects.c		\
 
 SRC_NT		=	main.c
 

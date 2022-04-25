@@ -6,6 +6,8 @@
 */
 
 #include "raytracer.h"
+#include "object.h"
+#include "my.h"
 
 #include <SFML/Graphics/Color.h>
 #include <SFML/Graphics/RenderWindow.h>
@@ -14,6 +16,7 @@
 #include <SFML/Window/Event.h>
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 
 void handle_events(sfRenderWindow *win)
@@ -60,6 +63,7 @@ int main(void)
     framebuffer_t *buf = alloc_framebuffer(WIDTH, HEIGHT);
     sfTexture *texture = sfTexture_create(WIDTH, HEIGHT);
     sfSprite *sprite = sfSprite_create();
+    struct object **objects = get_all_objects("./config.txt");
 
     srand(time(NULL));
     sfRenderWindow_setFramerateLimit(win, 60);

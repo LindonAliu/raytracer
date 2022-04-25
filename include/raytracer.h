@@ -58,6 +58,10 @@ sfRenderWindow *create_render_window(char *title);
 void free_framebuffer(framebuffer_t *buf);
 void reset_framebuffer(framebuffer_t *buffer, sfColor *col);
 void set_pixel(framebuffer_t *buf, int x, int y, sfColor *color);
+struct object **realloc_object_tab(struct object **tab, int new_size);
+sfColor get_color_from_rgb(char *rgb_code);
+int initialize_object(struct object **obj, char *line);
+struct object **get_all_objects(const char *path_to_config);
 
 intersection_t intersection_sphere;
 intersection_t intersection_plane;
