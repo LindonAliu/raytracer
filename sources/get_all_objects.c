@@ -16,6 +16,8 @@ struct object **get_all_objects(const char *path_to_config)
     size_t size = 0;
     int i = 1;
 
+    if (file == NULL)
+        return NULL;
     while (getline(&line, &size, file) != -1) {
         result = realloc_object_tab(result, (i + 1));
         if (result == NULL)
