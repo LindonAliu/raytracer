@@ -13,6 +13,7 @@
 #include <stdbool.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define SQ(v) ((v) * (v))
 
 #define WIDTH 800
