@@ -15,11 +15,11 @@ static int hexa_to_decimal(char *rgb_code)
 
     for (int i = 0; i < 2; ++i) {
         if (rgb_code[i] >= 'a' && rgb_code[i] <= 'f')
-            result += (rgb_code[i] - 'a' + 10) * my_compute_power_rec(16, len);
+            result |= (rgb_code[i] - 'a' + 10) << (len * 4);
         else if (rgb_code[i] >= 'A' && rgb_code[i] <= 'F')
-            result += (rgb_code[i] - 'A' + 10) * my_compute_power_rec(16, len);
+            result |= (rgb_code[i] - 'A' + 10) << (len * 4);
         else
-            result += (rgb_code[i] - '0') * my_compute_power_rec(16, len);
+            result |= (rgb_code[i] - '0') << (len * 4);
         len--;
     }
     return result;
