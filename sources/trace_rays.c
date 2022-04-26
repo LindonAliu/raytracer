@@ -68,7 +68,13 @@ void trace_rays(framebuffer_t *buf)
         .normal = {-1, 10, -1},
         .pos = {0, -1, 0},
     };
-    struct object *objects[] = { &s.obj, &p.obj, &s2.obj, NULL };
+    struct triangle t = {
+        .obj = {&intersection_triangle, sfRed },
+        .a = {10, 100, 400},
+        .b = {50, 200, 700},
+        .c = {100, 400, 1400}
+    };
+    struct object *objects[] = { &t.obj, NULL };
     struct light l = {
         .pos = {200, 200, 750}
     };

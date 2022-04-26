@@ -61,9 +61,9 @@ struct light {
 
 struct triangle {
     struct object obj;
-    struct vector A;
-    struct vector B;
-    struct vector C;
+    struct vector a;
+    struct vector b;
+    struct vector c;
 };
 
 typedef struct {
@@ -93,3 +93,4 @@ struct vector *pt, struct sphere *s);
 
 intersection_t intersection_sphere;
 intersection_t intersection_plane;
+intersection_t intersection_triangle;
