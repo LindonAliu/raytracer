@@ -8,7 +8,8 @@
 #include <stdbool.h>
 #include "raytracer.h"
 
-struct vector calcul_normal(struct vector *a, struct vector *b, struct vector *c)
+struct vector calcul_normal(struct vector *a, struct vector *b,
+    struct vector *c)
 {
     struct vector normal = {
         .x = (b->y - a->y) * (c->z - a->z) - (b->z - a->z) * (c->y - a->y),
@@ -18,13 +19,14 @@ struct vector calcul_normal(struct vector *a, struct vector *b, struct vector *c
     return normal;
 }
 
-bool in_triangle(struct triangle *t, struct vector *intersection, struct vector *normal)
+static bool in_triangle(struct triangle *t, struct vector *intersection,
+    struct vector *normal)
 {
-    double area = vector_norm(normal) / 2;
+    double sq_normal = vector_product(normal, normal);
     struct vector tmp = calcul_normal(intersection, &t->b, &t->c);
-    double alpha = vector_norm(&tmp) / (2 * area);
+    double alpha = vector_product(normal, &tmp) / sq_normal;
     struct vector tmp2 = calcul_normal(intersection, &t->c, &t->a);
-    double beta = vector_norm(&tmp2) / (2 * area);
+    double beta = vector_product(normal, &tmp2) / sq_normal;
     double gamma = 1 - alpha - beta;
 
     return (0 <= beta && beta <= 1 && 0 <= alpha && alpha <= 1 &&
@@ -34,7 +36,6 @@ bool in_triangle(struct triangle *t, struct vector *intersection, struct vector 
 bool intersection_triangle(void *obj, struct ray *r, struct intersection *out)
 {
     struct triangle *t = obj;
-
     struct vector normal = calcul_normal(&t->a, &t->b, &t->c);
     double d = -vector_product(&t->a, &normal);
     double divi = vector_product(&r->direction, &normal);
@@ -47,6 +48,9 @@ bool intersection_triangle(void *obj, struct ray *r, struct intersection *out)
     if (!in_triangle(t, &out->intersection, &normal))
         return false;
     out->distance = vector_distance(&r->origin, &out->intersection);
-    out->normal = normal;
+    if (vector_product(&normal, &r->direction) < 0)
+        out->normal = (struct vector) {-normal.x, -normal.y, -normal.z};
+    else
+        out->normal = normal;
     return true;
 }
