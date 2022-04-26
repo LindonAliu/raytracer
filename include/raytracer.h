@@ -59,6 +59,13 @@ struct light {
     struct vector pos;
 };
 
+struct triangle {
+    struct object obj;
+    struct vector A;
+    struct vector B;
+    struct vector C;
+};
+
 typedef struct {
     sfUint8 *pixels;
     unsigned int width;
