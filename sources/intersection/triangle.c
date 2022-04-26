@@ -37,3 +37,15 @@ bool intersection_triangle(void *obj, struct ray *r, struct intersection *out)
     (void)out;
     return false;
 }
+
+// bool intersection_triangle(void *obj, struct ray *r, struct intersection *out)
+// {
+//     struct triangle *t;
+
+//     if (intersection_plane(obj, r, out) == false)
+//         return false;
+//     t = obj;
+//     if (in_triangle == true)
+//         return true;
+//     return false;
+// }
