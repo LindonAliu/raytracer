@@ -22,9 +22,9 @@ int initialize_object(struct object **obj, char *line)
 
     if (array == NULL)
         return -1;
-    for (int i = 0; i != sizeof(TEST) / sizeof(TEST[i]); ++i) {
+    for (int i = 0; i != ARRAY_SIZE(TEST); ++i) {
         if (my_strcmp(array[0], TEST[i].object) == 0)
-            result = (TEST[i].func)(obj, line);
+            result = TEST[i].func(obj, line);
         if (result == -1)
             return -1;
     }

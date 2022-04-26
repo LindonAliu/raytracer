@@ -19,7 +19,7 @@ struct object **get_all_objects(const char *path_to_config)
     if (file == NULL)
         return NULL;
     while (getline(&line, &size, file) != -1) {
-        result = realloc_object_tab(result, (i + 1));
+        result = realloc_object_tab(result, i + 1);
         if (result == NULL)
             return NULL;
         if (initialize_object(&(result[i - 1]), line) == -1)

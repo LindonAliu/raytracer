@@ -13,6 +13,7 @@
 #include <stdbool.h>
 
 #define SQ(v) ((v) * (v))
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof(*x))
 
 #define WIDTH 800
 #define HEIGHT 600
