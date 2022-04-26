@@ -66,11 +66,33 @@ void trace_rays(framebuffer_t *buf)
         .normal = {0, -10, 0},
         .pos = {0, 100, 0},
     };
-    struct object *objects[] = { &s.obj, &p.obj, &s2.obj, &sun.obj, NULL };
+    struct plane wallr = {
+        .obj = { &intersection_plane, sfMagenta },
+        .normal = {-10, 0, 0},
+        .pos = {500, 0, 0},
+    };
+    struct plane walll = {
+        .obj = { &intersection_plane, sfRed },
+        .normal = {10, 0, 0},
+        .pos = {-500, 0, 0},
+    };
+    struct plane wallb = {
+        .obj = { &intersection_plane, sfWhite },
+        .normal = {0, 0, -10},
+        .pos = {0, 0, 1000},
+    };
+    struct object *objects[] = { &s.obj, &p.obj, &s2.obj,
+        &sun.obj, &wallr.obj, &walll.obj, &wallb.obj, NULL };
     struct light l = {
         .pos = {200, -200, 750}
     };
-    struct light *lights[] = { &l, NULL };
+    struct light l2 = {
+        .pos = {-200, 0, 650}
+    };
+    struct light l3 = {
+        .pos = {200, 0, 200}
+    };
+    struct light *lights[] = { &l, &l2, &l3, NULL };
     struct ray r = {
         .origin = {0, 0, 0},
         .direction = {0, 0, 500}

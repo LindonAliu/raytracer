@@ -60,6 +60,12 @@ struct light {
     struct vector pos;
 };
 
+struct infcolor {
+    double r;
+    double g;
+    double b;
+};
+
 typedef struct {
     sfUint8 *pixels;
     unsigned int width;
