@@ -8,7 +8,6 @@
 #include <stdbool.h>
 #include "raytracer.h"
 
-
 bool intersection_plane(void *obj, struct ray *r, struct intersection *out)
 {
     struct plane *p = obj;
