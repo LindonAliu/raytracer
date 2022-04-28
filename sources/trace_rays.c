@@ -40,7 +40,8 @@ sfColor mirror_mirror(
     if (calls == 15 || !lights)
         return sfBlack;
     calls++;
-    col = trace_ray(&ray, objects, lights);
+    col = find_intersection(&ray, objects, lights, result);
+    col = modify_lights(col, lights, result, objects);
     calls--;
     return col;
 }
@@ -86,12 +87,12 @@ void trace_rays(framebuffer_t *buf)
 {
     struct sphere s = {
         .obj = { &intersection_sphere, sfRed, MIRROR },
-        .center = {200, -100, 400},
+        .center = {-200, -100, 400},
         .radius = 42
     };
     struct sphere s2 = {
         .obj = { &intersection_sphere, sfBlue, OPAQUE },
-        .center = {0, 200, 800},
+        .center = {300, 200, 600},
         .radius = 200
     };
     struct sphere sun = {
@@ -120,7 +121,7 @@ void trace_rays(framebuffer_t *buf)
         .pos = {0, 0, 1000},
     };
     struct plane wallh = {
-        .obj = { &intersection_plane, sfWhite, OPAQUE },
+        .obj = { &intersection_plane, sfCyan, OPAQUE },
         .normal = {0, 0, 10},
         .pos = {0, 0, -1000},
     };
