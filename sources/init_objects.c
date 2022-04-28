@@ -9,19 +9,11 @@
 #include "raytracer.h"
 #include "my.h"
 
-bool check_space_tab(char c)
-{
-    if (c == ' ' || c == '\t')
-        return true;
-    return false;
-}
-
-int init_sphere(struct object **obj, char *line)
+int init_sphere(struct object **obj, char **array)
 {
     struct sphere *new = malloc(sizeof(struct sphere));
-    char **array = my_split(line, &check_space_tab, true);
 
-    if (new == NULL || array == NULL)
+    if (new == NULL)
         return -1;
     new->obj.color = get_color_from_rgb(array[1]);
     new->center.x = (double)my_getnbr(array[2]);
@@ -30,16 +22,14 @@ int init_sphere(struct object **obj, char *line)
     new->obj.intersection = &intersection_sphere;
     new->radius = (double)my_getnbr(array[5]);
     *obj = &(new->obj);
-    free_array(array);
     return 0;
 }
 
-int init_plane(struct object **obj, char *line)
+int init_plane(struct object **obj, char **array)
 {
     struct plane *new = malloc(sizeof(struct plane));
-    char **array = my_str_to_word_array(line);
 
-    if (new == NULL || array == NULL)
+    if (new == NULL)
         return -1;
     new->obj.color = get_color_from_rgb(array[1]);
     new->obj.intersection = &intersection_plane;
@@ -50,6 +40,5 @@ int init_plane(struct object **obj, char *line)
     new->normal.y = (double)my_getnbr(array[6]);
     new->normal.z = (double)my_getnbr(array[7]);
     *obj = &(new->obj);
-    free_array(array);
     return 0;
 }

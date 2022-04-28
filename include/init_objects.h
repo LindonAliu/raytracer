@@ -7,7 +7,7 @@
 
 #pragma once
 
-typedef int initialize_obj_t(struct object **obj, char *line);
+typedef int initialize_obj_t(struct object **obj, char **array);
 
 struct call_object {
     char *object;
