@@ -8,7 +8,7 @@
 #include <SFML/Graphics.h>
 #include "my.h"
 
-static int hexa_to_decimal(char *rgb_code)
+static int hexa_to_decimal(const char *rgb_code)
 {
     int len = 1;
     int result = 0;
@@ -25,17 +25,15 @@ static int hexa_to_decimal(char *rgb_code)
     return result;
 }
 
-sfColor get_color_from_rgb(char *rgb_code)
+sfColor get_color_from_rgb(const char *rgb_code)
 {
     sfColor result;
 
     if (rgb_code[0] == '#')
         rgb_code++;
     result.r = hexa_to_decimal(rgb_code);
-    rgb_code += 2;
-    result.g = hexa_to_decimal(rgb_code);
-    rgb_code += 2;
-    result.b = hexa_to_decimal(rgb_code);
+    result.g = hexa_to_decimal(rgb_code + 2);
+    result.b = hexa_to_decimal(rgb_code + 4);
     result.a = 0;
     return result;
 }
