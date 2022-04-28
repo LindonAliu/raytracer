@@ -10,7 +10,7 @@
 #include "init_objects.h"
 #include "my.h"
 
-static const struct call_object (TEST[]) = {
+static const struct call_object INIT_OBJECTS_ARRAY[] = {
     {.object = "SPHERE", .func = &init_sphere},
     {.object = "PLANE", .func = &init_plane}
 };
@@ -29,9 +29,9 @@ int initialize_object(struct object **obj, char *line)
 
     if (array == NULL)
         return -1;
-    for (int i = 0; i != ARRAY_SIZE(TEST); ++i) {
-        if (my_strcmp(array[0], TEST[i].object) == 0)
-            result = TEST[i].func(obj, array);
+    for (int i = 0; i != ARRAY_SIZE(INIT_OBJECTS_ARRAY); ++i) {
+        if (my_strcmp(array[0], INIT_OBJECTS_ARRAY[i].object) == 0)
+            result = INIT_OBJECTS_ARRAY[i].func(obj, array);
         if (result == -1)
             return -1;
     }
