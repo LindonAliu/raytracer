@@ -6,7 +6,7 @@
 */
 
 #include "raytracer.h"
-#include "object.h"
+#include "init_objects.h"
 #include "my.h"
 
 #include <SFML/Graphics/Color.h>

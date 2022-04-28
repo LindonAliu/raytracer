@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include "raytracer.h"
-#include "object.h"
+#include "init_objects.h"
 #include "my.h"
 
 static const struct call_object (TEST[]) = {

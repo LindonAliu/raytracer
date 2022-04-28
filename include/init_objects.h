@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2022
 ** raytracer
 ** File description:
-** object
+** init_objects
 */
 
 #pragma once
