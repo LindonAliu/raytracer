@@ -39,9 +39,15 @@ struct intersection {
 typedef bool intersection_t(void *obj, struct ray *r,
     struct intersection *out);
 
+enum material {
+    OPAQUE,
+    MIRROR
+};
+
 struct object {
     intersection_t *intersection;
     sfColor color;
+    enum material material;
 };
 
 struct sphere {
@@ -87,7 +93,10 @@ sfColor modify_lights(
     struct intersection *intersection,
     struct object **objects);
 
-sfColor find_intersection(struct ray *ray, struct object **objects,
+sfColor find_intersection(
+    struct ray *ray,
+    struct object **objects,
+    struct light **lights,
     struct intersection *final);
 
 bool shadow(struct light *light, struct intersection *intersection,
