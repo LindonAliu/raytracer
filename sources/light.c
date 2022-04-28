@@ -22,8 +22,12 @@ sfColor light(struct light *light, struct intersection *intersection,
         (vector_norm(&intersection->normal) * vector_norm(&l));
     double multiplier = cos_a > 0 ? cos_a : 0;
 
-    return ((sfColor) { multiplier * color.r, multiplier * color.g,
-        multiplier * color.b, color.a });
+    return ((sfColor) {
+        (light->color.r / 255.0) * multiplier * color.r,
+        (light->color.g / 255.0) * multiplier * color.g,
+        (light->color.b / 255.0) * multiplier * color.b,
+        color.a
+    });
 }
 
 sfColor correct_gamma(struct infcolor color)

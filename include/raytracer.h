@@ -58,6 +58,7 @@ struct plane {
 
 struct light {
     struct vector pos;
+    sfColor color;
 };
 
 struct infcolor {
