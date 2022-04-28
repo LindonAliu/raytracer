@@ -32,16 +32,16 @@ sfRenderWindow *create_render_window(char *title)
     return sfRenderWindow_create(mode, title, sfDefaultStyle, NULL);
 }
 
-void set_pixel(framebuffer_t *buf, int x, int y, sfColor *color)
+void set_pixel(framebuffer_t *buf, int x, int y, sfColor color)
 {
     unsigned int off = (buf->width * y + x) * 4;
 
     if (x < 0 || y < 0 || off >= (buf->width * buf->height * 4))
         return;
-    buf->pixels[off + 0] = color->r;
-    buf->pixels[off + 1] = color->g;
-    buf->pixels[off + 2] = color->b;
-    buf->pixels[off + 3] = color->a;
+    buf->pixels[off + 0] = color.r;
+    buf->pixels[off + 1] = color.g;
+    buf->pixels[off + 2] = color.b;
+    buf->pixels[off + 3] = color.a;
 }
 
 void free_framebuffer(framebuffer_t *buf)
@@ -57,7 +57,7 @@ void reset_framebuffer(framebuffer_t *buffer, sfColor *col)
 
     for (x = 0; x < buffer->width; x++) {
         for (y = 0; y < buffer->height; y++) {
-            set_pixel(buffer, x, y, col);
+            set_pixel(buffer, x, y, *col);
         }
     }
 }
