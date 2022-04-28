@@ -29,34 +29,6 @@ void handle_events(sfRenderWindow *win)
     }
 }
 
-void trace_rays(framebuffer_t *buf)
-{
-    struct sphere s = {
-        .obj = { &intersection_sphere, sfRed },
-        .center = {0, 0, 800},
-        .radius = 100
-    };
-    struct plane p = {
-        .obj = { &intersection_plane, sfGreen },
-        .normal = {-1, 10, -1},
-        .pos = {0, -1, 0},
-    };
-    struct ray r = {
-        .origin = {0, 0, 0},
-        .direction = {0, 0, 500}
-    };
-
-    for (int x = 0; x < WIDTH; x++) {
-        for (int y = 0; y < HEIGHT; y++) {
-            r.direction.x = (int) (x - WIDTH / 2);
-            r.direction.y = (int) (y - HEIGHT / 2);
-            set_pixel(buf, x, y,
-                intersection_sphere(&s, &r) ? &s.obj.color :
-                intersection_plane(&p, &r) ? &p.obj.color : &sfBlack);
-        }
-    }
-}
-
 int main(void)
 {
     sfRenderWindow *win = create_render_window("Raytracer");
@@ -69,7 +41,7 @@ int main(void)
     sfRenderWindow_setFramerateLimit(win, 60);
     while (sfRenderWindow_isOpen(win)) {
         handle_events(win);
-        trace_rays(buf);
+        trace_rays(buf, objects);
         sfTexture_updateFromPixels(texture, buf->pixels,
             buf->width, buf->height, 0, 0);
         sfSprite_setTexture(sprite, texture, sfFalse);

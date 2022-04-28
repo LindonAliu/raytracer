@@ -12,6 +12,8 @@
 #include <SFML/Window/Event.h>
 #include <stdbool.h>
 
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define SQ(v) ((v) * (v))
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(*x))
 
@@ -29,7 +31,14 @@ struct ray {
     struct vector direction;
 };
 
-typedef double intersection_t(void *obj, struct ray *r);
+struct intersection {
+    struct vector intersection;
+    struct vector normal;
+    double distance;
+};
+
+typedef bool intersection_t(void *obj, struct ray *r,
+    struct intersection *out);
 
 struct object {
     intersection_t *intersection;
@@ -48,6 +57,10 @@ struct plane {
     struct vector normal;
 };
 
+struct light {
+    struct vector pos;
+};
+
 typedef struct {
     sfUint8 *pixels;
     unsigned int width;
@@ -58,11 +71,33 @@ framebuffer_t *alloc_framebuffer(int width, int height);
 sfRenderWindow *create_render_window(char *title);
 void free_framebuffer(framebuffer_t *buf);
 void reset_framebuffer(framebuffer_t *buffer, sfColor *col);
-void set_pixel(framebuffer_t *buf, int x, int y, sfColor *color);
 struct object **realloc_object_tab(struct object **tab, int new_size);
 sfColor get_color_from_rgb(char *rgb_code);
 int initialize_object(struct object **obj, char *line);
 struct object **get_all_objects(const char *path_to_config);
+void set_pixel(framebuffer_t *buf, int x, int y, sfColor color);
+
+void trace_rays(framebuffer_t *buf, struct object **objects);
+
+sfColor light(struct light *light, struct intersection *intersection,
+    sfColor color);
+sfColor modify_lights(
+    sfColor color, struct light **lights,
+    struct intersection *intersection,
+    struct object **objects);
+
+sfColor find_intersection(struct ray *ray, struct object **objects,
+    struct intersection *final);
+
+bool shadow(struct light *light, struct intersection *intersection,
+    struct object **objects);
+
+double vector_norm(struct vector *vector);
+double vector_product(struct vector *lhs, struct vector *rhs);
+
+double discriminant(double a, double b, double c);
+double vector_distance(struct vector *a, struct vector *b);
+struct vector pt_init(struct ray *r, struct vector *pt, struct sphere *s);
 
 intersection_t intersection_sphere;
 intersection_t intersection_plane;

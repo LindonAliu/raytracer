@@ -6,13 +6,17 @@
 ##
 
 SRC_ALL		=	framebuffer.c			\
-				intersection_sphere.c	\
-				intersection_plane.c	\
 				realloc_object_tab.c	\
 				init_objects.c			\
 				get_color_from_rgb.c	\
 				initialize_object_tab.c	\
 				get_all_objects.c		\
+				intersection/sphere.c	\
+				intersection/plane.c	\
+				trace_rays.c			\
+				light.c					\
+				vector.c				\
+				shadow.c				\
 
 SRC_NT		=	main.c
 
@@ -32,7 +36,7 @@ TEST		=	unit_tests
 CPPFLAGS	=	-Wall -Wextra -iquote "include"
 CFLAGS		=
 LDFLAGS		=	-Llib
-LDLIBS		=	-lmy -lcsfml-graphics -lcsfml-system -lcsfml-window
+LDLIBS		=	-lm -lmy -lcsfml-graphics -lcsfml-system -lcsfml-window
 
 all:	$(EXEC)
 

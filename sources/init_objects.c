@@ -9,10 +9,17 @@
 #include "raytracer.h"
 #include "my.h"
 
+bool check_space_tab(char c)
+{
+    if (c == ' ' || c == '\t')
+        return true;
+    return false;
+}
+
 int init_sphere(struct object **obj, char *line)
 {
     struct sphere *new = malloc(sizeof(struct sphere));
-    char **array = my_str_to_word_array(line);
+    char **array = my_split(line, &check_space_tab, true);
 
     if (new == NULL || array == NULL)
         return -1;
