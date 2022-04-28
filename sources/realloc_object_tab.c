@@ -17,7 +17,7 @@ static int get_object_tab_len(const struct object **tab)
     return i;
 }
 
-struct object **realloc_object_tab(struct object **tab, int const new_size)
+struct object **realloc_object_tab(struct object **tab, int new_size)
 {
     int tab_len = 0;
     struct object **new = NULL;
