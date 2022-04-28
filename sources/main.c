@@ -29,13 +29,13 @@ void handle_events(sfRenderWindow *win)
     }
 }
 
-int main(void)
+int main(int argc, const char *argv[])
 {
     sfRenderWindow *win = create_render_window("Raytracer");
     framebuffer_t *buf = alloc_framebuffer(WIDTH, HEIGHT);
     sfTexture *texture = sfTexture_create(WIDTH, HEIGHT);
     sfSprite *sprite = sfSprite_create();
-    struct object **objects = get_all_objects("./config.txt");
+    struct object **objects = get_all_objects(argv[1]);
 
     srand(time(NULL));
     sfRenderWindow_setFramerateLimit(win, 60);
