@@ -28,7 +28,11 @@ sfColor mirror_mirror(
 {
     static int calls = 0;
     struct ray ray = {
-        .origin = result->intersection,
+        .origin = {
+            result->intersection.x + result->normal.x * 1e-6,
+            result->intersection.y + result->normal.y * 1e-6,
+            result->intersection.z + result->normal.z * 1e-6
+        },
         .direction = result->normal
     };
     sfColor col;
