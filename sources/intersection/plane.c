@@ -20,9 +20,9 @@ bool intersection_plane(void *obj, struct ray *r, struct intersection *out)
     out->intersection = (struct vector) {r->origin.x + t * r->direction.x,
         r->origin.y + t * r->direction.y, r->origin.z + t * r->direction.z};
     out->distance = vector_distance(&r->origin, &out->intersection);
-    if (divi < 0)
-        out->normal = p->normal;
-    else
+    if (divi > 0)
         out->normal = (struct vector) {-p->normal.x, -p->normal.y, -p->normal.z};
+    else
+        out->normal = p->normal;
     return true;
 }
