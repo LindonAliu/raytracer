@@ -56,9 +56,9 @@ bool intersection_sphere(void *obj, struct ray *r, struct intersection *out)
     if (delta == 0) {
         calcu(s, r, out, x1);
     } else if (delta > 0) {
-        if (x1 > 0 && x2 < 0)
+        if (x1 >= 0 && x2 < 0)
             calcu(s, r, out, x1);
-        else if (x2 > 0 && x1 < 0)
+        else if (x2 >= 0 && x1 < 0)
             calcu(s, r, out, x2);
         else
             calcu(s, r, out, MIN(x1, x2));
