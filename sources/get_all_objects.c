@@ -5,8 +5,9 @@
 ** get_all_objects
 */
 
-#include <stdio.h>
 #include "raytracer.h"
+
+#include <stdio.h>
 
 struct object **get_all_objects(const char *path_to_config)
 {
