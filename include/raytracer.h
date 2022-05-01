@@ -67,6 +67,7 @@ typedef struct {
     unsigned int height;
 } framebuffer_t;
 
+int raytracer(struct object **objects);
 framebuffer_t *alloc_framebuffer(int width, int height);
 sfRenderWindow *create_render_window(char *title);
 void free_framebuffer(framebuffer_t *buf);

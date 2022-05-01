@@ -6,6 +6,7 @@
 ##
 
 SRC_ALL		=	framebuffer.c			\
+				raytracer.c	 		 	\
 				realloc_object_tab.c	\
 				init_objects.c			\
 				get_color_from_rgb.c	\
