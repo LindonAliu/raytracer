@@ -5,15 +5,11 @@
 ** initialize_object_tab
 */
 
-#include <stdlib.h>
 #include "raytracer.h"
 #include "init_objects.h"
 #include "my.h"
 
-static const struct call_object INIT_OBJECTS_ARRAY[] = {
-    {.object = "SPHERE", .func = &init_sphere},
-    {.object = "PLANE", .func = &init_plane}
-};
+#include <stdlib.h>
 
 static bool check_space_tab(char c)
 {

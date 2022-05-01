@@ -16,3 +16,8 @@ struct call_object {
 
 initialize_obj_t init_sphere;
 initialize_obj_t init_plane;
+
+static const struct call_object INIT_OBJECTS_ARRAY[] = {
+    {.object = "SPHERE", .func = &init_sphere},
+    {.object = "PLANE", .func = &init_plane}
+};
