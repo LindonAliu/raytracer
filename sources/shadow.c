@@ -7,6 +7,8 @@
 
 #include "raytracer.h"
 
+#include <stddef.h>
+
 bool shadow(struct light *light, struct intersection *intersection,
     struct object **objects)
 {
@@ -23,6 +25,6 @@ bool shadow(struct light *light, struct intersection *intersection,
     double distance =
         vector_distance(&light->pos, &intersection->intersection);
 
-    find_intersection(&lightray, objects, &result);
+    find_intersection(&lightray, objects, NULL, &result);
     return result.distance > distance - 1e-6;
 }
