@@ -13,6 +13,7 @@
 #include <stdbool.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define SQ(v) ((v) * (v))
 
 #define WIDTH 800
@@ -38,9 +39,15 @@ struct intersection {
 typedef bool intersection_t(void *obj, struct ray *r,
     struct intersection *out);
 
+enum material {
+    OPAQUE,
+    MIRROR
+};
+
 struct object {
     intersection_t *intersection;
     sfColor color;
+    enum material material;
 };
 
 struct sphere {
@@ -66,6 +73,12 @@ struct triangle {
     struct vector c;
 };
 
+struct infcolor {
+    double r;
+    double g;
+    double b;
+};
+
 typedef struct {
     sfUint8 *pixels;
     unsigned int width;
@@ -82,14 +95,26 @@ void trace_rays(framebuffer_t *buf);
 
 sfColor light(struct light *light, struct intersection *intersection,
     sfColor color);
+sfColor modify_lights(
+    sfColor color, struct light **lights,
+    struct intersection *intersection,
+    struct object **objects);
+
+sfColor find_intersection(
+    struct ray *ray,
+    struct object **objects,
+    struct light **lights,
+    struct intersection *final);
+
+bool shadow(struct light *light, struct intersection *intersection,
+    struct object **objects);
 
 double vector_norm(struct vector *vector);
 double vector_product(struct vector *lhs, struct vector *rhs);
 
 double discriminant(double a, double b, double c);
 double vector_distance(struct vector *a, struct vector *b);
-void pt_init(struct vector *pt_sphere, struct ray *r,
-struct vector *pt, struct sphere *s);
+struct vector pt_init(struct ray *r, struct vector *pt, struct sphere *s);
 
 intersection_t intersection_sphere;
 intersection_t intersection_plane;
