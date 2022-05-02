@@ -66,6 +66,13 @@ struct light {
     struct vector pos;
 };
 
+struct triangle {
+    struct object obj;
+    struct vector a;
+    struct vector b;
+    struct vector c;
+};
+
 struct infcolor {
     double r;
     double g;
@@ -111,3 +118,4 @@ struct vector pt_init(struct ray *r, struct vector *pt, struct sphere *s);
 
 intersection_t intersection_sphere;
 intersection_t intersection_plane;
+intersection_t intersection_triangle;

@@ -105,6 +105,12 @@ void trace_rays(framebuffer_t *buf)
         .normal = {0, -10, 0},
         .pos = {0, 100, 0},
     };
+    struct triangle t = {
+        .obj = {&intersection_triangle, sfRed },
+        .a = {-50, -50, 400},
+        .b = {-50, 50, 400},
+        .c = {50, 50, 400}
+    };
     struct plane wallr = {
         .obj = { &intersection_plane, sfMagenta, OPAQUE },
         .normal = {-10, 0, 0},
@@ -126,7 +132,7 @@ void trace_rays(framebuffer_t *buf)
         .pos = {0, 0, -1000},
     };
     struct object *objects[] = { &s.obj, &p.obj, &s2.obj,
-        &sun.obj, &wallr.obj, &walll.obj, &wallb.obj, &wallh.obj, NULL };
+        &sun.obj, &wallr.obj, &walll.obj, &wallb.obj, &wallh.obj, &t.obj, NULL };
     struct light l = {
         .pos = {200, -200, 750}
     };

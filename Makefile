@@ -8,6 +8,7 @@
 SRC_ALL		=	framebuffer.c			\
 				intersection/sphere.c	\
 				intersection/plane.c	\
+				intersection/triangle.c	\
 				trace_rays.c			\
 				light.c					\
 				vector.c				\
