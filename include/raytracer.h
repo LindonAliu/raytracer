@@ -115,7 +115,7 @@ sfColor trace_ray(
     struct ray *ray, struct object **objects,
     struct light **lights, struct intersection *result);
 
-bool shadow(struct light *light, struct intersection *intersection,
+double shadow(struct light *light, struct intersection *intersection,
     struct object **objects);
 sfColor mirror_mirror(
     struct object **objects,

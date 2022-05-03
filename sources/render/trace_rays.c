@@ -37,19 +37,36 @@ int find_intersection(
     return index;
 }
 
+sfColor blend_colors(sfColor fg, sfColor bg)
+{
+    return ((sfColor) {
+        (fg.r * fg.a + bg.r * (255 - fg.a)) / 255,
+        (fg.g * fg.a + bg.g * (255 - fg.a)) / 255,
+        (fg.b * fg.a + bg.b * (255 - fg.a)) / 255,
+        bg.a
+    });
+}
+
 sfColor trace_ray(
     struct ray *ray, struct object **objects,
     struct light **lights, struct intersection *result)
 {
     int index = find_intersection(ray, objects, result);
     sfColor col;
+    struct intersection copy = *result;
 
     if (index == -1)
         return sfBlack;
     switch (objects[index]->material) {
     case OPAQUE:
         col = objects[index]->color;
-        break;
+        if (col.a == 255)
+            break;
+        copy.normal = ray->direction;
+        col = modify_lights(col, lights, result, objects);
+        col.a = objects[index]->color.a;
+        col = blend_colors(col, mirror_mirror(objects, lights, &copy));
+        return col;
     case MIRROR:
         col = mirror_mirror(objects, lights, result);
         break;
