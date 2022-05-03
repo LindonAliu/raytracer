@@ -86,13 +86,16 @@ sfColor trace_ray(struct ray *ray, struct object **objects,
 void trace_rays(framebuffer_t *buf, struct object **objects)
 {
     struct light l = {
-        .pos = {200, -200, 750}
+        .pos = {200, -200, 750},
+        .color = {255, 10, 10, 255}
     };
     struct light l2 = {
-        .pos = {-200, 0, 650}
+        .pos = {-200, 0, 650},
+        .color = {10, 10, 255, 255}
     };
     struct light l3 = {
-        .pos = {200, 0, 200}
+        .pos = {200, 0, 200},
+        .color = {10, 255, 10, 255}
     };
     struct light *lights[] = { &l, &l2, &l3, NULL };
     struct ray r = {
