@@ -18,6 +18,32 @@ static bool check_space_tab(char c)
     return false;
 }
 
+int my_tablen(char **array)
+{
+    int i;
+
+    if (array == NULL)
+        return -1;
+    for (i = 0; array[i] != NULL; ++i);
+    return i;
+}
+
+int initialize_light(struct light **light, char *line)
+{
+    char **array = my_split(line, &check_space_tab, true);
+    struct light *result = malloc(sizeof(struct light));
+
+    if (array == NULL ||
+        my_tablen(array) != 4 ||
+        result == NULL)
+        return -1;
+    fill_vector(&(result->pos), my_getnbr(array[1]), my_getnbr(array[2]),
+        my_getnbr(array[3]));
+    *light = result;
+    free_array(array);
+    return 0;
+}
+
 int initialize_object(struct object **obj, char *line)
 {
     char **array = my_split(line, &check_space_tab, true);
@@ -31,6 +57,8 @@ int initialize_object(struct object **obj, char *line)
         if (result == -1)
             return -1;
     }
+    if (result == 0)
+        return -1;
     free_array(array);
     return 0;
 }

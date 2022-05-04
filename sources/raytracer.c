@@ -28,7 +28,7 @@ void handle_events(sfRenderWindow *win)
     }
 }
 
-int raytracer(struct object **objects)
+int raytracer(struct scene *scenes)
 {
     sfRenderWindow *win = create_render_window("Raytracer");
     framebuffer_t *buf = alloc_framebuffer(WIDTH, HEIGHT);
@@ -39,7 +39,7 @@ int raytracer(struct object **objects)
     sfRenderWindow_setFramerateLimit(win, 60);
     while (sfRenderWindow_isOpen(win)) {
         handle_events(win);
-        trace_rays(buf, objects);
+        trace_rays(buf, scenes);
         sfTexture_updateFromPixels(texture, buf->pixels,
             buf->width, buf->height, 0, 0);
         sfSprite_setTexture(sprite, texture, sfFalse);

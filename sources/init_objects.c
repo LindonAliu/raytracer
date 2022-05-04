@@ -9,29 +9,71 @@
 #include "raytracer.h"
 #include "my.h"
 
+void fill_vector(struct vector *a, int x, int y, int z)
+{
+    a->x = (double)x;
+    a->y = (double)y;
+    a->z = (double)z;
+}
+
 int init_sphere(struct object **obj, char **array)
 {
     struct sphere *new = malloc(sizeof(struct sphere));
 
-    if (new == NULL)
+    if (new == NULL || my_tablen(array) != SPHERE_CONFIG_LEN)
         return -1;
-    new->obj.color = get_color_from_rgb(array[1]);
-    new->center.x = (double)my_getnbr(array[2]);
-    new->center.y = (double)my_getnbr(array[3]);
-    new->center.z = (double)my_getnbr(array[4]);
+    if (my_strcmp(array[1], "MIRROR") != 0) {
+        new->obj.color = get_color_from_rgb(array[1]);
+        new->obj.material = OPAQUE;
+    } else {
+        new->obj.color = get_color_from_rgb("#000000");
+        new->obj.material = MIRROR;
+    }
+    fill_vector(&(new->center), my_getnbr(array[2]), my_getnbr(array[3]),
+        my_getnbr(array[4]));
     new->obj.intersection = &intersection_sphere;
     new->radius = (double)my_getnbr(array[5]);
     *obj = &(new->obj);
-    return 0;
+    return 1;
+}
+
+int init_triangle(struct object **obj, char **array)
+{
+    struct triangle *new = malloc(sizeof(struct triangle));
+
+    if (new == NULL || my_tablen(array) != TRIANGLE_CONFIG_LEN)
+        return -1;
+    if (my_strcmp(array[1], "MIRROR") != 0) {
+        new->obj.color = get_color_from_rgb(array[1]);
+        new->obj.material = OPAQUE;
+    } else {
+        new->obj.color = get_color_from_rgb("#000000");
+        new->obj.material = MIRROR;
+    }
+    new->obj.intersection = &intersection_triangle;
+    fill_vector(&(new->a), my_getnbr(array[2]), my_getnbr(array[3]),
+        my_getnbr(array[4]));
+    fill_vector(&(new->b), my_getnbr(array[5]), my_getnbr(array[6]),
+        my_getnbr(array[7]));
+    fill_vector(&(new->c), my_getnbr(array[8]), my_getnbr(array[9]),
+        my_getnbr(array[10]));
+    *obj = &(new->obj);
+    return 1;
 }
 
 int init_plane(struct object **obj, char **array)
 {
     struct plane *new = malloc(sizeof(struct plane));
 
-    if (new == NULL)
+    if (new == NULL || my_tablen(array) != PLANE_CONFIG_LEN)
         return -1;
-    new->obj.color = get_color_from_rgb(array[1]);
+    if (my_strcmp(array[1], "MIRROR") != 0) {
+        new->obj.color = get_color_from_rgb(array[1]);
+        new->obj.material = OPAQUE;
+    } else {
+        new->obj.color = get_color_from_rgb("#000000");
+        new->obj.material = MIRROR;
+    }
     new->obj.intersection = &intersection_plane;
     new->pos.x = (double)my_getnbr(array[2]);
     new->pos.y = (double)my_getnbr(array[3]);
@@ -40,5 +82,5 @@ int init_plane(struct object **obj, char **array)
     new->normal.y = (double)my_getnbr(array[6]);
     new->normal.z = (double)my_getnbr(array[7]);
     *obj = &(new->obj);
-    return 0;
+    return 1;
 }
