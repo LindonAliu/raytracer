@@ -65,8 +65,7 @@ sfColor trace_ray(
         copy.normal = ray->direction;
         col = modify_lights(col, lights, result, objects);
         col.a = objects[index]->color.a;
-        col = blend_colors(col, mirror_mirror(objects, lights, &copy));
-        return col;
+        return blend_colors(col, mirror_mirror(objects, lights, &copy));
     case MIRROR:
         col = mirror_mirror(objects, lights, result);
         break;
