@@ -15,10 +15,11 @@ SRC_ALL		=	framebuffer.c			\
 				intersection/sphere.c	\
 				intersection/plane.c	\
 				intersection/triangle.c	\
-				trace_rays.c			\
-				light.c					\
+				render/trace_rays.c		\
+				render/light.c			\
+				render/mirror.c			\
 				vector.c				\
-				shadow.c				\
+				render/shadow.c			\
 
 SRC_NT		=	main.c
 
