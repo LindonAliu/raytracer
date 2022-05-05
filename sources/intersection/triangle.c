@@ -43,7 +43,7 @@ bool intersection_triangle(void *obj, struct ray *r, struct intersection *out)
 
     if (s <= 0 || divi == 0)
         return false;
-    out->intersection = (struct vector) {r->origin.x + s * r->direction.x, 
+    out->intersection = (struct vector) {r->origin.x + s * r->direction.x,
         r->origin.y + s * r->direction.y, r->origin.z + s * r->direction.z};
     if (!in_triangle(t, &out->intersection, &normal))
         return false;
