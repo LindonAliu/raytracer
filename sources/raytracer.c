@@ -23,12 +23,21 @@ void handle_events(sfRenderWindow *win)
     sfEvent event;
 
     while (sfRenderWindow_pollEvent(win, &event)) {
-        if (event.type == sfEvtClosed)
+        if (event.type == sfEvtClosed || sfKeyboard_isKeyPressed(sfKeyEscape))
             sfRenderWindow_close(win);
     }
 }
 
-int raytracer(struct object **objects)
+static void destroy_elements(sfRenderWindow *win, framebuffer_t *buf,
+    sfTexture *texture, sfSprite *sprite)
+{
+    free_framebuffer(buf);
+    sfSprite_destroy(sprite);
+    sfTexture_destroy(texture);
+    sfRenderWindow_destroy(win);
+}
+
+void raytracer(struct object **objects)
 {
     sfRenderWindow *win = create_render_window("Raytracer");
     framebuffer_t *buf = alloc_framebuffer(WIDTH, HEIGHT);
@@ -46,9 +55,5 @@ int raytracer(struct object **objects)
         sfRenderWindow_drawSprite(win, sprite, NULL);
         sfRenderWindow_display(win);
     }
-    free_framebuffer(buf);
-    sfSprite_destroy(sprite);
-    sfTexture_destroy(texture);
-    sfRenderWindow_destroy(win);
-    return 0;
+    destroy_elements(win, buf, texture, sprite);
 }
