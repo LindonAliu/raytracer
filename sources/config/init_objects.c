@@ -34,13 +34,6 @@ int init_sphere(struct object **obj, char **array)
     if (new == NULL || my_tablen(array) != SPHERE_CONFIG_LEN)
         return -1;
     init_material(&new->obj, array[1]);
-    if (my_strcmp(array[1], "MIRROR") != 0) {
-        new->obj.color = get_color_from_rgb(array[1]);
-        new->obj.material = OPAQUE;
-    } else {
-        new->obj.color = get_color_from_rgb("#000000");
-        new->obj.material = MIRROR;
-    }
     fill_vector(&(new->center), my_getnbr(array[2]), my_getnbr(array[3]),
         my_getnbr(array[4]));
     new->obj.intersection = &intersection_sphere;
