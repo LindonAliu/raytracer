@@ -20,6 +20,7 @@ void *my_reallocarray(void *ptr, int nmemb, int size)
     if (result == NULL)
         return NULL;
     my_memcpy(result, ptr, size * (nmemb - 1));
+    my_memset((char *) result + size * (nmemb - 1), 0, size);
     free(ptr);
     return result;
 }
