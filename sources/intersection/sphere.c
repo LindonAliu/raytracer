@@ -27,6 +27,9 @@ static double calcu(struct sphere *s, struct ray *r,
     out->distance = vector_distance(&r->origin, &out->intersection);
     out->normal = (struct vector) {out->intersection.x - s->center.x,
         out->intersection.y - s->center.y, out->intersection.z - s->center.z};
+    if (vector_product(&r->direction, &out->normal) > 0)
+        out->normal = (struct vector) {-out->normal.x, -out->normal.y,
+            -out->normal.z};
     return out->distance;
 }
 
@@ -51,17 +54,16 @@ bool intersection_sphere(void *obj, struct ray *r, struct intersection *out)
     double delta = discriminant(pt_sphere.x, pt_sphere.y, pt_sphere.z);
     double x1 = (-pt_sphere.y + sqrt(delta)) / (2 * pt_sphere.x);
     double x2 = (-pt_sphere.y - sqrt(delta)) / (2 * pt_sphere.x);
+
     if (delta < 0 || (x1 < 0 && x2 < 0) || isnan(delta))
         return false;
-    if (delta == 0) {
+    if (delta == 0)
         calcu(s, r, out, x1);
-    } else if (delta > 0) {
-        if (x1 >= 0 && x2 < 0)
-            calcu(s, r, out, x1);
-        else if (x2 >= 0 && x1 < 0)
-            calcu(s, r, out, x2);
-        else
-            calcu(s, r, out, MIN(x1, x2));
-    }
+    if (x1 >= 0 && x2 < 0)
+        calcu(s, r, out, x1);
+    else if (x2 >= 0 && x1 < 0)
+        calcu(s, r, out, x2);
+    else
+        calcu(s, r, out, MIN(x1, x2));
     return true;
 }

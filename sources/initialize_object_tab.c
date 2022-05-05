@@ -39,6 +39,7 @@ int initialize_light(struct light **light, char *line)
         return -1;
     fill_vector(&(result->pos), my_getnbr(array[1]), my_getnbr(array[2]),
         my_getnbr(array[3]));
+    result->color = sfWhite;
     *light = result;
     free_array(array);
     return 0;

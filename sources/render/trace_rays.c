@@ -17,39 +17,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-sfColor trace_ray(
-    struct ray *ray, struct object **objects,
-    struct light **lights);
-
-sfColor mirror_mirror(
-    struct object **objects,
-    struct light **lights,
-    struct intersection *result)
-{
-    static int calls = 0;
-    struct ray ray = {
-        .origin = {
-            result->intersection.x + result->normal.x * 1e-6,
-            result->intersection.y + result->normal.y * 1e-6,
-            result->intersection.z + result->normal.z * 1e-6
-        },
-        .direction = result->normal
-    };
-    sfColor col;
-
-    if (calls == 15 || !lights)
-        return sfBlack;
-    calls++;
-    col = find_intersection(&ray, objects, lights, result);
-    col = modify_lights(col, lights, result, objects);
-    calls--;
-    return col;
-}
-
-sfColor find_intersection(
+int find_intersection(
     struct ray *ray,
     struct object **objects,
-    struct light **lights,
     struct intersection *final)
 {
     int index = -1;
@@ -64,23 +34,43 @@ sfColor find_intersection(
         *final = result;
         index = i;
     }
+    return index;
+}
+
+sfColor blend_colors(sfColor fg, sfColor bg)
+{
+    return ((sfColor) {
+        (fg.r * fg.a + bg.r * (255 - fg.a)) / 255,
+        (fg.g * fg.a + bg.g * (255 - fg.a)) / 255,
+        (fg.b * fg.a + bg.b * (255 - fg.a)) / 255,
+        bg.a
+    });
+}
+
+sfColor trace_ray(
+    struct ray *ray, struct object **objects,
+    struct light **lights, struct intersection *result)
+{
+    int index = find_intersection(ray, objects, result);
+    sfColor col;
+    struct intersection copy = *result;
+
     if (index == -1)
         return sfBlack;
     switch (objects[index]->material) {
     case OPAQUE:
-        return objects[index]->color;
+        col = objects[index]->color;
+        if (col.a == 255)
+            break;
+        copy.normal = ray->direction;
+        col = modify_lights(col, lights, result, objects);
+        col.a = objects[index]->color.a;
+        return blend_colors(col, mirror_mirror(objects, lights, &copy));
     case MIRROR:
-        return mirror_mirror(objects, lights, final);
+        col = mirror_mirror(objects, lights, result);
+        break;
     }
-}
-
-sfColor trace_ray(struct ray *ray, struct object **objects,
-    struct light **lights)
-{
-    struct intersection result;
-    sfColor col = find_intersection(ray, objects, lights, &result);
-
-    return modify_lights(col, lights, &result, objects);
+    return modify_lights(col, lights, result, objects);
 }
 
 void trace_rays(framebuffer_t *buf, struct scene *scenes)
@@ -89,12 +79,13 @@ void trace_rays(framebuffer_t *buf, struct scene *scenes)
         .origin = {0, 0, 0},
         .direction = {0, 0, 500}
     };
+    struct intersection inter;
 
     for (int x = 0; x < WIDTH; x++) {
         for (int y = 0; y < HEIGHT; y++) {
             r.direction.x = (int) (x - WIDTH / 2);
             r.direction.y = (int) (y - HEIGHT / 2);
-            set_pixel(buf, x, y, trace_ray(&r, scenes->obj, scenes->lights));
+            set_pixel(buf, x, y, trace_ray(&r, scenes->obj, scenes->lights, &inter));
         }
     }
 }

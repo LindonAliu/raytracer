@@ -22,17 +22,21 @@ sfColor light(struct light *light, struct intersection *intersection,
         (vector_norm(&intersection->normal) * vector_norm(&l));
     double multiplier = cos_a > 0 ? cos_a : 0;
 
-    return ((sfColor) { multiplier * color.r, multiplier * color.g,
-        multiplier * color.b, color.a });
+    return ((sfColor) {
+        (light->color.r / 255.0) * multiplier * color.r,
+        (light->color.g / 255.0) * multiplier * color.g,
+        (light->color.b / 255.0) * multiplier * color.b,
+        color.a
+    });
 }
 
 sfColor correct_gamma(struct infcolor color)
 {
     sfColor res;
 
-    res.r = 1 - 1 / (2 * pow(color.r / 255.0, 1 / 2.2) + 1) * 255;
-    res.g = 1 - 1 / (2 * pow(color.g / 255.0, 1 / 2.2) + 1) * 255;
-    res.b = 1 - 1 / (2 * pow(color.b / 255.0, 1 / 2.2) + 1) * 255;
+    res.r = (1 - 1 / (2 * color.r / 255.0 + 1)) * 255;
+    res.g = (1 - 1 / (2 * color.g / 255.0 + 1)) * 255;
+    res.b = (1 - 1 / (2 * color.b / 255.0 + 1)) * 255;
     res.a = 255;
     return res;
 }
@@ -44,14 +48,14 @@ sfColor modify_lights(
 {
     struct infcolor modified = {0};
     sfColor partial;
+    double mod;
 
     for (int i = 0; lights[i]; i++) {
         partial = light(lights[i], intersection, color);
-        if (shadow(lights[i], intersection, objects) == 0)
-            continue;
-        modified.r += partial.r;
-        modified.g += partial.g;
-        modified.b += partial.b;
+        mod = shadow(lights[i], intersection, objects);
+        modified.r += partial.r * mod;
+        modified.g += partial.g * mod;
+        modified.b += partial.b * mod;
     }
     return correct_gamma(modified);
 }
