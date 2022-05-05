@@ -34,9 +34,9 @@ sfColor correct_gamma(struct infcolor color)
 {
     sfColor res;
 
-    res.r = 1 - 1 / (2 * pow(color.r / 255.0, 1 / 2.2) + 1) * 255;
-    res.g = 1 - 1 / (2 * pow(color.g / 255.0, 1 / 2.2) + 1) * 255;
-    res.b = 1 - 1 / (2 * pow(color.b / 255.0, 1 / 2.2) + 1) * 255;
+    res.r = (1 - 1 / (2 * color.r / 255.0 + 1)) * 255;
+    res.g = (1 - 1 / (2 * color.g / 255.0 + 1)) * 255;
+    res.b = (1 - 1 / (2 * color.b / 255.0 + 1)) * 255;
     res.a = 255;
     return res;
 }
