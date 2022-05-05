@@ -12,15 +12,13 @@
 
 int main(int argc, const char *argv[])
 {
-    struct scene *scenes = NULL;
+    struct scene scenes;
 
     if (argc < 2) {
         my_puterr("Please give a *.rtx file as a parameter\n");
         return 84;
     }
-    scenes = get_all_objects(argv[1]);
-    if (scenes == NULL)
-        return 84;
-    raytracer(scenes);
+    get_all_objects(argv[1], &scenes);
+    raytracer(&scenes);
     return 0;
 }

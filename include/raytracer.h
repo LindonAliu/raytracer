@@ -105,7 +105,7 @@ sfColor get_color_from_rgb(char *rgb_code);
 int my_tablen(char **array);
 int initialize_object(struct object **obj, char *line);
 int initialize_light(struct light **light, char *line);
-struct scene *get_all_objects(const char *path_to_config);
+struct scene *get_all_objects(const char *path_to_config, struct scene *result);
 void fill_vector(struct vector *a, int x, int y, int z);
 void set_pixel(framebuffer_t *buf, int x, int y, sfColor color);
 
