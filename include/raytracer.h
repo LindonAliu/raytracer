@@ -100,15 +100,14 @@ framebuffer_t *alloc_framebuffer(int width, int height);
 sfRenderWindow *create_render_window(char *title);
 void free_framebuffer(framebuffer_t *buf);
 void reset_framebuffer(framebuffer_t *buffer, sfColor *col);
-struct object **realloc_object_tab(struct object **tab, int new_size);
-struct light **realloc_light_tab(struct light **tab, int new_size);
 sfColor get_color_from_rgb(char *rgb_code);
 int my_tablen(char **array);
 int initialize_object(struct object **obj, char *line);
 int initialize_light(struct light **light, char *line);
-struct scene *get_all_objects(const char *path_to_config, struct scene *result);
+int get_all_objects(const char *path_to_config, struct scene *result);
 void fill_vector(struct vector *a, int x, int y, int z);
 void set_pixel(framebuffer_t *buf, int x, int y, sfColor color);
+void *my_reallocarray(void *ptr, int nmemb, int size);
 
 void trace_rays(framebuffer_t *buf, struct scene *scenes);
 

@@ -34,12 +34,12 @@ int initialize_light(struct light **light, char *line)
     struct light *result = malloc(sizeof(struct light));
 
     if (array == NULL ||
-        my_tablen(array) != 4 ||
+        my_tablen(array) != 5 ||
         result == NULL)
         return -1;
     fill_vector(&(result->pos), my_getnbr(array[1]), my_getnbr(array[2]),
         my_getnbr(array[3]));
-    result->color = sfWhite;
+    result->color = get_color_from_rgb(array[4]);
     *light = result;
     free_array(array);
     return 0;

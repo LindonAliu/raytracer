@@ -7,7 +7,7 @@
 
 SRC_ALL		=	framebuffer.c			\
 				raytracer.c	 		 	\
-				realloc_object_tab.c	\
+				my_reallocarray.c		\
 				init_objects.c			\
 				get_color_from_rgb.c	\
 				initialize_object_tab.c	\

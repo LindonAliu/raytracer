@@ -16,12 +16,24 @@ void fill_vector(struct vector *a, int x, int y, int z)
     a->z = (double)z;
 }
 
+void init_material(struct object *obj, char *line)
+{
+    if (my_strcmp(line, "MIRROR") != 0) {
+        obj->color = get_color_from_rgb(line);
+        obj->material = OPAQUE;
+    } else {
+        obj->color = (sfColor) {.a = 255};
+        obj->material = MIRROR;
+    }
+}
+
 int init_sphere(struct object **obj, char **array)
 {
     struct sphere *new = malloc(sizeof(struct sphere));
 
     if (new == NULL || my_tablen(array) != SPHERE_CONFIG_LEN)
         return -1;
+    init_material(&new->obj, array[1]);
     if (my_strcmp(array[1], "MIRROR") != 0) {
         new->obj.color = get_color_from_rgb(array[1]);
         new->obj.material = OPAQUE;
@@ -43,13 +55,7 @@ int init_triangle(struct object **obj, char **array)
 
     if (new == NULL || my_tablen(array) != TRIANGLE_CONFIG_LEN)
         return -1;
-    if (my_strcmp(array[1], "MIRROR") != 0) {
-        new->obj.color = get_color_from_rgb(array[1]);
-        new->obj.material = OPAQUE;
-    } else {
-        new->obj.color = get_color_from_rgb("#000000");
-        new->obj.material = MIRROR;
-    }
+    init_material(&new->obj, array[1]);
     new->obj.intersection = &intersection_triangle;
     fill_vector(&(new->a), my_getnbr(array[2]), my_getnbr(array[3]),
         my_getnbr(array[4]));
@@ -67,13 +73,7 @@ int init_plane(struct object **obj, char **array)
 
     if (new == NULL || my_tablen(array) != PLANE_CONFIG_LEN)
         return -1;
-    if (my_strcmp(array[1], "MIRROR") != 0) {
-        new->obj.color = get_color_from_rgb(array[1]);
-        new->obj.material = OPAQUE;
-    } else {
-        new->obj.color = get_color_from_rgb("#000000");
-        new->obj.material = MIRROR;
-    }
+    init_material(&new->obj, array[1]);
     new->obj.intersection = &intersection_plane;
     new->pos.x = (double)my_getnbr(array[2]);
     new->pos.y = (double)my_getnbr(array[3]);
