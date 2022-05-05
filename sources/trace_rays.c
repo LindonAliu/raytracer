@@ -104,6 +104,7 @@ void trace_rays(framebuffer_t *buf, struct object **objects)
     };
 
     for (int x = 0; x < WIDTH; x++) {
+        r.direction.z = WIDTH * cos(((x / ((double)WIDTH / 2)) - 1) * 30 * (M_PI / 180));
         for (int y = 0; y < HEIGHT; y++) {
             r.direction.x = (int) (x - WIDTH / 2);
             r.direction.y = (int) (y - HEIGHT / 2);
