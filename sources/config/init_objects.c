@@ -56,6 +56,9 @@ int init_triangle(struct object **obj, char **array)
         my_getnbr(array[7]));
     fill_vector(&(new->c), my_getnbr(array[8]), my_getnbr(array[9]),
         my_getnbr(array[10]));
+    new->normal = calcul_normal(&new->a, &new->b, &new->c);
+    new->d = -vector_product(&new->a, &new->normal);
+    new->normal_sq = vector_product(&new->normal, &new->normal);
     *obj = &(new->obj);
     return 1;
 }
