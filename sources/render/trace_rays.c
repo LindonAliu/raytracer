@@ -31,8 +31,8 @@ int find_intersection(
             continue;
         if (result.distance >= final->distance)
             continue;
-        index = i;
         *final = result;
+        index = i;
     }
     return index;
 }
@@ -73,21 +73,8 @@ sfColor trace_ray(
     return modify_lights(col, lights, result, objects);
 }
 
-void trace_rays(framebuffer_t *buf, struct object **objects)
+void trace_rays(framebuffer_t *buf, struct scene *scenes)
 {
-    struct light l = {
-        .pos = {200, -200, 750},
-        .color = {255, 10, 10, 255}
-    };
-    struct light l2 = {
-        .pos = {-200, 0, 650},
-        .color = {10, 10, 255, 255}
-    };
-    struct light l3 = {
-        .pos = {200, 0, 200},
-        .color = {10, 255, 10, 255}
-    };
-    struct light *lights[] = { &l, &l2, &l3, NULL };
     struct ray r = {
         .origin = {0, 0, 0},
         .direction = {0, 0, 500}
@@ -98,7 +85,7 @@ void trace_rays(framebuffer_t *buf, struct object **objects)
         for (int y = 0; y < HEIGHT; y++) {
             r.direction.x = (int) (x - WIDTH / 2);
             r.direction.y = (int) (y - HEIGHT / 2);
-            set_pixel(buf, x, y, trace_ray(&r, objects, lights, &inter));
+            set_pixel(buf, x, y, trace_ray(&r, scenes->obj, scenes->lights, &inter));
         }
     }
 }

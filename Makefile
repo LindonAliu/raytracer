@@ -5,21 +5,21 @@
 ## Make nice stuff
 ##
 
-SRC_ALL		=	framebuffer.c			\
-				raytracer.c	 		 	\
-				realloc_object_tab.c	\
-				init_objects.c			\
-				get_color_from_rgb.c	\
-				initialize_object_tab.c	\
-				get_all_objects.c		\
-				intersection/sphere.c	\
-				intersection/plane.c	\
-				intersection/triangle.c	\
-				render/trace_rays.c		\
-				render/light.c			\
-				render/mirror.c			\
-				vector.c				\
-				render/shadow.c			\
+SRC_ALL		=	framebuffer.c					\
+				raytracer.c	 		 			\
+				config/my_reallocarray.c		\
+				config/init_objects.c			\
+				config/get_color_from_rgb.c		\
+				config/initialize_object_tab.c	\
+				config/get_all_objects.c		\
+				intersection/sphere.c			\
+				intersection/plane.c			\
+				intersection/triangle.c			\
+				render/trace_rays.c				\
+				render/light.c					\
+				render/mirror.c					\
+				vector.c						\
+				render/shadow.c					\
 
 SRC_NT		=	main.c
 

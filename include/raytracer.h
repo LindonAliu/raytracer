@@ -19,6 +19,9 @@
 
 #define WIDTH 800
 #define HEIGHT 600
+#define PLANE_CONFIG_LEN 8
+#define SPHERE_CONFIG_LEN 6
+#define TRIANGLE_CONFIG_LEN 11
 
 struct vector {
     double x;
@@ -81,24 +84,32 @@ struct infcolor {
     double b;
 };
 
+struct scene {
+    struct object **obj;
+    struct light **lights;
+};
+
 typedef struct {
     sfUint8 *pixels;
     unsigned int width;
     unsigned int height;
 } framebuffer_t;
 
-void raytracer(struct object **objects);
+void raytracer(struct scene *scene);
 framebuffer_t *alloc_framebuffer(int width, int height);
 sfRenderWindow *create_render_window(char *title);
 void free_framebuffer(framebuffer_t *buf);
 void reset_framebuffer(framebuffer_t *buffer, sfColor *col);
-struct object **realloc_object_tab(struct object **tab, int new_size);
 sfColor get_color_from_rgb(char *rgb_code);
+int my_tablen(char **array);
 int initialize_object(struct object **obj, char *line);
-struct object **get_all_objects(const char *path_to_config);
+int initialize_light(struct light **light, char *line);
+int get_all_objects(const char *path_to_config, struct scene *result);
+void fill_vector(struct vector *a, int x, int y, int z);
 void set_pixel(framebuffer_t *buf, int x, int y, sfColor color);
+void *my_reallocarray(void *ptr, int nmemb, int size);
 
-void trace_rays(framebuffer_t *buf, struct object **objects);
+void trace_rays(framebuffer_t *buf, struct scene *scenes);
 
 sfColor light(struct light *light, struct intersection *intersection,
     sfColor color);
