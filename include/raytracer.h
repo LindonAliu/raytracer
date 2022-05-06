@@ -76,6 +76,10 @@ struct triangle {
     struct vector a;
     struct vector b;
     struct vector c;
+    /// computed values
+    struct vector normal;
+    double d;
+    double normal_sq;
 };
 
 struct infcolor {
@@ -139,6 +143,9 @@ double vector_product(struct vector *lhs, struct vector *rhs);
 double discriminant(double a, double b, double c);
 double vector_distance(struct vector *a, struct vector *b);
 struct vector pt_init(struct ray *r, struct vector *pt, struct sphere *s);
+
+struct vector calcul_normal(struct vector *a, struct vector *b,
+    struct vector *c);
 
 intersection_t intersection_sphere;
 intersection_t intersection_plane;
