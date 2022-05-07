@@ -37,7 +37,9 @@ sfColor mirror_reflect(
     struct light **lights,
     struct intersection *result)
 {
-    double mul = 2 * vector_product(&ray->direction, &result->normal);
+    double norm = vector_norm(&result->normal);
+    double mul = 2 * vector_product(&ray->direction, &result->normal)
+        / SQ(norm);
 
     result->normal = (struct vector) {
         ray->direction.x - mul * result->normal.x,
