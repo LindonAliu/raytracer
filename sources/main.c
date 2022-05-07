@@ -18,7 +18,8 @@ int main(int argc, const char *argv[])
         my_puterr("Please give a *.rtx file as a parameter\n");
         return 84;
     }
-    get_all_objects(argv[1], &scenes);
+    if (get_all_objects(argv[1], &scenes) == -1)
+        return 84;
     raytracer(&scenes);
     return 0;
 }
