@@ -82,11 +82,13 @@ void trace_rays(framebuffer_t *buf, struct scene *scenes)
     struct intersection inter;
 
     for (int x = 0; x < WIDTH; x++) {
-        r.direction.z = WIDTH * cos(((x / ((double)WIDTH / 2)) - 1) * 30 * (M_PI / 180));
+        r.direction.z = WIDTH * cos(((x / ((double)WIDTH / 2)) - 1)
+            * 30 * (M_PI / 180));
         for (int y = 0; y < HEIGHT; y++) {
             r.direction.x = (int) (x - WIDTH / 2);
             r.direction.y = (int) (y - HEIGHT / 2);
-            set_pixel(buf, x, y, trace_ray(&r, scenes->obj, scenes->lights, &inter));
+            set_pixel(buf, x, y,
+                trace_ray(&r, scenes->obj, scenes->lights, &inter));
         }
     }
 }
