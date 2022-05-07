@@ -44,7 +44,6 @@ void raytracer(struct scene *scene)
     sfTexture *texture = sfTexture_create(WIDTH, HEIGHT);
     sfSprite *sprite = sfSprite_create();
 
-    srand(time(NULL));
     sfRenderWindow_setFramerateLimit(win, 60);
     while (sfRenderWindow_isOpen(win)) {
         handle_events(win);
