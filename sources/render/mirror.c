@@ -30,3 +30,19 @@ sfColor mirror_mirror(
     calls--;
     return col;
 }
+
+sfColor mirror_reflect(
+    struct ray *ray,
+    struct object **objects,
+    struct light **lights,
+    struct intersection *result)
+{
+    double mul = 2 * vector_product(&ray->direction, &result->normal);
+
+    result->normal = (struct vector) {
+        ray->direction.x - mul * result->normal.x,
+        ray->direction.y - mul * result->normal.y,
+        ray->direction.z - mul * result->normal.z,
+    };
+    return mirror_mirror(objects, lights, result);
+}
