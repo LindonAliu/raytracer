@@ -34,7 +34,7 @@ sfColor get_color_from_rgb(const char *rgb_code)
     result.r = hexa_to_decimal(rgb_code);
     result.g = hexa_to_decimal(rgb_code + 2);
     result.b = hexa_to_decimal(rgb_code + 4);
-    if (*(rgb_code + 6) != '\0')
+    if (rgb_code[6] != '\0')
         result.a = hexa_to_decimal(rgb_code + 6);
     else
         result.a = 255;
