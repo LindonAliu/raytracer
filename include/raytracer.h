@@ -136,6 +136,11 @@ sfColor mirror_mirror(
     struct object **objects,
     struct light **lights,
     struct intersection *result);
+sfColor mirror_reflect(
+    struct ray *ray,
+    struct object **objects,
+    struct light **lights,
+    struct intersection *result);
 
 double vector_norm(struct vector *vector);
 double vector_product(struct vector *lhs, struct vector *rhs);
